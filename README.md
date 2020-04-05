@@ -1,1 +1,2 @@
-# kovainfo-Domoticz-zigbee2mqtt-network-map
+# Domoticz zigbee2mqtt network map
+<img src="screenshot.png"></img>
