@@ -4,6 +4,10 @@
 ## Prerequisites
 - Setup and run zigbee2mqtt server (https://www.zigbee2mqtt.io)
 - Setup and run zigbee2mqtt plugin (https://github.com/stas-demydiuk/domoticz-zigbee2mqtt-plugin)
+- Install Mosquitto clients:
+```
+$ apt-get install mosquitto-clients
+```
 
 ## Installation
 1. Copy content of folder templates in your templates folder in Domoticz 
