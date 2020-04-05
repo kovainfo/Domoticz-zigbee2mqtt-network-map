@@ -45,10 +45,16 @@ var options = {
     shadow: true
   },
   physics: {
-    stabilization: false,
-    barnesHut: {
-      springLength: 200
-    }
+      stabilization: false,
+      forceAtlas2Based: {
+        gravitationalConstant: -26,
+        centralGravity: 0.005,
+        springLength: 230,
+        springConstant: 0.18
+      },
+      maxVelocity: 146,
+      solver: "forceAtlas2Based",
+      timestep: 0.35
   }
 };
 
