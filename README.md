@@ -1,10 +1,15 @@
 # Domoticz zigbee2mqtt network map
 <img src="screenshot.png"></img>
 
-Open Domoticz script editor and create dzVents script named "dz_ZigBeeMapGenerator":
+## Prerequisites
+- Setup and run zigbee2mqtt server (https://www.zigbee2mqtt.io)
+- Setup and run zigbee2mqtt plugin (https://github.com/stas-demydiuk/domoticz-zigbee2mqtt-plugin)
+
+## Installation
+1. Copy content of folder templates in your templates folder in Domoticz 
+2. Open Domoticz script editor and create dzVents script named "dz_ZigBeeMapGenerator":
 
 ```
-
 return {
 	on = {
 		customEvents = {
