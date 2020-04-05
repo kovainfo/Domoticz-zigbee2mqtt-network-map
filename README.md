@@ -27,7 +27,7 @@ return {
 	execute = function(domoticz, triggeredItem)
 	    
 	    function SendCommand()
-            cmd = "sh /home/pi/domoticz/www/templates/zigbeemap/zigbeemap.sh"
+            cmd = "sh /home/pi/domoticz/www/templates/zigbeemap/zigbeemap.sh &"
             domoticz.utils.osExecute(cmd)
         end  
 	    
