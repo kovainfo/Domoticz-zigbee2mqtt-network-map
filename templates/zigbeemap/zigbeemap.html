@@ -1,0 +1,114 @@
+<HEAD>
+  <meta charset="utf-8" />
+  <TITLE>ZIGBEE network (zigbee2mqtt)</TITLE>
+
+  <script type="text/javascript" src="vis.min.js"></script>
+  <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="vis.min.css">
+
+  <style type="text/css">
+    #mynetwork {
+        width: 100%;
+        height: 600px;
+    }
+  </style>
+</HEAD>
+
+<BODY>
+
+<div id="mynetwork"></div>
+<div id="networkJSON-results" class="results" style="display:none"></div>
+
+<script type="text/javascript">
+
+var container = document.getElementById('mynetwork');
+
+var nodes = []
+var edges = []
+
+var zigmapjson = $.getJSON("/json.htm?type=command&param=customevent&event=CreateZigbeeMap")
+  .done(function(jsonData){
+});
+
+var json = $.getJSON("/templates/zigbeemap/raw.json")
+  .done(function(jsonData){
+
+var options = {
+  nodes: {
+    shape: "dot",
+    size: 30,
+    borderWidth: 2,
+    shadow: true
+  },
+  edges: {
+    width: 2,
+    shadow: true
+  },
+  physics: {
+    stabilization: false,
+    barnesHut: {
+      springLength: 200
+    }
+  }
+};
+
+    var type = "10";
+
+    var item = jsonData.nodes;
+    for (var n1 in item) {
+	console.log(item[n1].friendlyName)
+	if (item[n1].type == "Coordinator") { 
+	    nodes.push({
+		id: item[n1].ieeeAddr,
+        	value: 50,
+		margin: 20,
+    		label: item[n1].friendlyName,
+		shape: "circle",
+		color: "#FB7E81"
+	    });       
+	}
+	if (item[n1].type == "Router") {
+            nodes.push({
+	        id: item[n1].ieeeAddr,
+    		value: 5,
+		margin: 10,
+	        label: item[n1].friendlyName+"\n"+item[n1].modelID,
+	        shape: "box",
+		color: "#97C2FC" 
+    	    });
+	}
+	if (item[n1].type == "EndDevice") {
+            nodes.push({
+		id: item[n1].ieeeAddr,
+		value: 1,
+		margin: 10,
+	        label: item[n1].friendlyName+"\n"+item[n1].modelID,
+		shape: "box",
+		color: "#FFFF00"
+	    });       
+        }
+    }     
+    item = jsonData.links;
+    for (var n1 in item) {
+	console.log(item[n1].lqi)
+        edges.push({
+            from: item[n1].sourceIeeeAddr,
+	    to: item[n1].targetIeeeAddr,
+	    value: item[n1].lqi,
+            label: item[n1].lqi.toString()
+        });       
+    }     
+
+
+    var data = {
+      nodes: nodes,
+      edges: edges
+    };
+    var network = new vis.Network(container, data, options);
+  });
+
+
+</script>
+
+</BODY>
+</HTML>
