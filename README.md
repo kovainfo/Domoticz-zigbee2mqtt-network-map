@@ -1,6 +1,10 @@
 # Domoticz zigbee2mqtt network map
 <img src="screenshot.png"></img>
 
+Open Domoticz script editor and create dzVents script named "dz_ZigBeeMapGenerator":
+
+```
+
 return {
 	on = {
 		customEvents = {
@@ -23,3 +27,4 @@ return {
 	end
 }
 
+```
