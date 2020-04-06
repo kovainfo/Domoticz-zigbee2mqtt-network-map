@@ -26,13 +26,15 @@ return {
 	logger = {},
 	execute = function(domoticz, triggeredItem)
 	    
+	    local Path   = "/home/pi/domoticz/www/templates/zigbeemap/"                  -- template path
+	    
 	    function SendCommand()
-            cmd = "sh /home/pi/domoticz/www/templates/zigbeemap/zigbeemap.sh &"
+            cmd = "sh "..Path.."zigbeemap.sh "..Path.." &"
             domoticz.utils.osExecute(cmd)
         end  
 	    
 		if (triggeredItem.isCustomEvent) then
-			domoticz.utils._.print(triggeredItem.data)
+			domoticz.utils._.print("Create ZigbeeMap...")
 			SendCommand()
 		end
 	end
