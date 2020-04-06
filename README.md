@@ -13,7 +13,7 @@ $ apt-get install mosquitto-clients
 
 ## Installation
 1. Copy content of folder templates in your templates folder in Domoticz 
-2. Open Domoticz script editor and create dzVents script named "dz_ZigBeeMapGenerator":
+2. Open Domoticz script editor and create dzVents script named "dz_ZigBeeMapGenerator" (don't forget to check path to template folder):
 
 ```
 return {
@@ -26,7 +26,7 @@ return {
 	logger = {},
 	execute = function(domoticz, triggeredItem)
 	    
-	    local Path   = "/home/pi/domoticz/www/templates/zigbeemap/"                  -- template path
+	    local Path   = "/home/pi/domoticz/www/templates/zigbeemap/"  -- template path
 	    
 	    function SendCommand()
             cmd = "sh "..Path.."zigbeemap.sh "..Path.." &"
