@@ -30,7 +30,7 @@ return {
 	logger = {},
 	execute = function(domoticz, triggeredItem)
 	    
-	    local Path   = "/home/pi/domoticz/www/templates/zigbeemap/"  -- template path
+	    local Path   = "/home/pi/domoticz/www/templates/zigbeemap/"                  -- template path
 	    
 	    function SendCommand()
             cmd = Path.."zigbeemap.sh "..Path
@@ -43,5 +43,6 @@ return {
 		end
 	end
 }
+
 
 ```
