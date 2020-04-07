@@ -1,10 +1,16 @@
 <HEAD>
   <meta charset="utf-8" />
+  <meta http-equiv="cache-control" content="max-age=0" />
+  <meta http-equiv="cache-control" content="no-cache" />
+  <meta http-equiv="expires" content="0" />
+  <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+  <meta http-equiv="pragma" content="no-cache" />
+
   <TITLE>ZIGBEE network (zigbee2mqtt)</TITLE>
 
   <script type="text/javascript" src="vis.min.js"></script>
-  <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
   <link rel="stylesheet" type="text/css" href="vis.min.css">
 
   <style type="text/css">
@@ -19,6 +25,8 @@
 
 <div id="mynetwork"></div>
 <div id="networkJSON-results" class="results" style="display:none"></div>
+<input type="button" onclick="CreateZigbeeMap()" value="Refresh Zigbee Network Map">
+
 
 <script type="text/javascript">
 
@@ -27,16 +35,13 @@ var container = document.getElementById('mynetwork');
 var nodes = []
 var edges = []
 
-var zigmapjson = $.getJSON("/json.htm?type=command&param=customevent&event=CreateZigbeeMap")
-  .done(function(jsonData){
-});
+
 
 var json = $.getJSON("/templates/zigbeemap/raw.json")
   .done(function(jsonData){
 
 var options = {
   nodes: {
-    shape: "dot",
     size: 30,
     borderWidth: 2,
     shadow: true
@@ -45,25 +50,30 @@ var options = {
     width: 2,
     shadow: true
   },
-  physics: {
+
+  highlightNearest: true,
+  nodesIdSelection: true,
+  autoResize: true,
+
+   physics: {
       stabilization: false,
       forceAtlas2Based: {
         gravitationalConstant: -26,
         centralGravity: 0.005,
-        springLength: 230,
+        springLength: 430,
         springConstant: 0.18
       },
       maxVelocity: 146,
       solver: "forceAtlas2Based",
       timestep: 0.35
-  }
+    }
+
 };
 
     var type = "10";
 
     var item = jsonData.nodes;
     for (var n1 in item) {
-	console.log(item[n1].friendlyName)
 	if (item[n1].type == "Coordinator") { 
 	    nodes.push({
 		id: item[n1].ieeeAddr,
@@ -75,13 +85,17 @@ var options = {
 	    });       
 	}
 	if (item[n1].type == "Router") {
+	    var color_ = "#97C2FC"
+	    if ((item[n1].modelID=="lumi.ctrl_neutral1")||(item[n1].modelID=="lumi.ctrl_neutral2")) {
+		color_ = "#aeefec"
+	    }
             nodes.push({
 	        id: item[n1].ieeeAddr,
     		value: 5,
 		margin: 10,
 	        label: item[n1].friendlyName+"\n"+item[n1].modelID,
 	        shape: "box",
-		color: "#97C2FC" 
+		color: color_
     	    });
 	}
 	if (item[n1].type == "EndDevice") {
@@ -97,15 +111,14 @@ var options = {
     }     
     item = jsonData.links;
     for (var n1 in item) {
-	console.log(item[n1].lqi)
         edges.push({
             from: item[n1].sourceIeeeAddr,
 	    to: item[n1].targetIeeeAddr,
 	    value: item[n1].lqi,
-            label: item[n1].lqi.toString()
+            label: item[n1].lqi.toString(),
+	    length: (255 - item[n1].lqi) * 2
         });       
     }     
-
 
     var data = {
       nodes: nodes,
@@ -114,7 +127,12 @@ var options = {
     var network = new vis.Network(container, data, options);
   });
 
-
+function CreateZigbeeMap() {
+    console.log('function called');
+    var zigmapjson = $.getJSON("/json.htm?type=command&param=customevent&event=CreateZigbeeMap")
+	.done(function(jsonData){
+    });
+}
 </script>
 
 </BODY>
